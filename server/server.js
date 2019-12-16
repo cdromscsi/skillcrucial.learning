@@ -75,8 +75,9 @@ const imgdata = [
 
 const imgbuf = Buffer.from(imgdata)
 
-server.get('/tracker/:userId', (req, res) => {
+server.get('/tracker/:userId.gif', (req, res) => {
   const { userId } = req.params
+
   const dataObj = {
     language: req.headers['accept-language'],
     userAgent: req.headers['user-agent'],
@@ -84,10 +85,9 @@ server.get('/tracker/:userId', (req, res) => {
     ipAddress: req.connection.remoteAddress,
     userId
   }
-  // eslint-disable-next-line no-console
-  console.log(dataObj)
 
   const fileName = `${__dirname}/logs/${userId}_${dataObj.data}.json`
+
   return fs.writeFile(
     fileName,
     JSON.stringify(dataObj),
