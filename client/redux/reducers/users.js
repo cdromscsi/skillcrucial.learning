@@ -1,8 +1,11 @@
 const GET_DATA = 'skillcrucial//users/GET_DATA'
 const ERROR_HAPPENED = 'skillcrucial//users/ERROR_HAPPENED'
+const REQUEST_STARTED = 'skillcrucial//users/REQUEST_STARTED'
+const REQUEST_DONE = 'skillcrucial//users/REQUEST_DONE'
 
 const InitialState = {
-  list: []
+  list: [],
+  isRequesting: false
 }
 
 export default (state = InitialState, action) => {
@@ -12,6 +15,16 @@ export default (state = InitialState, action) => {
         ...state,
         list: action.list
       }
+    case REQUEST_STARTED:
+      return {
+        ...state,
+        isRequesting: true
+      }
+    case REQUEST_DONE:
+      return {
+        ...state,
+        isRequesting: false
+      }
     default:
       return state
   }
@@ -19,6 +32,7 @@ export default (state = InitialState, action) => {
 
 export function getData() {
   return (dispatch) => {
+    dispatch({ type: REQUEST_STARTED })
     return fetch('/api/users')
       .then(res => res.json())
       .then((json) => {
@@ -26,12 +40,14 @@ export function getData() {
           type: GET_DATA,
           list: json
         })
+        dispatch({ type: REQUEST_DONE })
       })
       .catch((err) => {
         dispatch({
           type: ERROR_HAPPENED,
           err
         })
+        dispatch({ type: REQUEST_DONE })
       })
   }
 }
