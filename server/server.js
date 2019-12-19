@@ -63,7 +63,8 @@ const getFakeUser = () => {
     salary: faker.finance.amount(),
     age: (faker.random.number() % 30) + 18,
     phoneNumber: faker.phone.phoneNumber(),
-    city: faker.address.city()
+    city: faker.address.city(),
+    avatar: faker.internet.avatar()
   }
 }
 

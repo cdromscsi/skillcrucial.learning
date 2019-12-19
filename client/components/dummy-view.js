@@ -16,29 +16,35 @@ const Dummy = (props) => {
       <Head title="Hello" />
       <div> {JSON.stringify(props.isRequesting)} </div>
       <div> Hello World {counter} </div>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Company</th>
-          <th>Salary</th>
-          <th>Age</th>
-          <th>Phone number</th>
-          <th>City</th>
-        </tr>
-        {
-          props.users.map(user => (
-            <tr>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.company}</td>
-              <td>{user.salary}</td>
-              <td>{user.age}</td>
-              <td>{user.phoneNumber}</td>
-              <td>{user.city}</td>
-            </tr>
-          ))
-        }
+      <table className="table table-striped table-bordered">
+        <thead className="thead-dark">
+          <tr>
+            <th>Avatar</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company</th>
+            <th>Salary</th>
+            <th>Age</th>
+            <th>Phone number</th>
+            <th>City</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            props.users.map(user => (
+              <tr>
+                <td><img src={user.avatar} alt="" /></td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.company}</td>
+                <td>{user.salary}</td>
+                <td>{user.age}</td>
+                <td>{user.phoneNumber}</td>
+                <td>{user.city}</td>
+              </tr>
+            ))
+          }
+        </tbody>
       </table>
       <img src={`/tracker/${counter}.gif`} alt="tracker" />
     </div>
