@@ -108,15 +108,15 @@ server.get('/api/users', (req, res) => {
     (err, data) => {
       if (!err) {
         return res.json(
-          JSON.parse(data)
+          JSON.parse(data).slice(0, 10)
         )
       }
-      const dataGenerated = [...new Array(10).keys()].map(getFakeUser)
+      const dataGenerated = [...new Array(100).keys()].map(getFakeUser)
       return fs.writeFile(
         fileName,
         JSON.stringify(dataGenerated),
         () => {
-          res.json(dataGenerated)
+          res.json(dataGenerated.slice(0, 10))
         }
       )
     }
