@@ -12,7 +12,7 @@ const Dummy = (props) => {
     getDataProps()
   }, [getDataProps])
   return (
-    <div>
+    <div className="text-monospace">
       <Head title="Hello" />
       <div> {JSON.stringify(props.isRequesting)} </div>
       <div> Hello World {counter} </div>
@@ -33,7 +33,7 @@ const Dummy = (props) => {
           {
             props.users.map(user => (
               <tr>
-                <td><img src={user.avatar} alt="" /></td>
+                <td><img className="rounded-circle" src={user.avatar} alt="" /></td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.company}</td>
