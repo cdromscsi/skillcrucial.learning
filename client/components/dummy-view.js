@@ -6,16 +6,16 @@ import Head from './head'
 import { getData } from '../redux/reducers/users'
 
 const Dummy = (props) => {
-  const [counter] = useState(1)
+  const [pageIndex, setPageIndex] = useState(0)
   const { getData: getDataProps } = props
   useEffect(() => {
-    getDataProps()
-  }, [getDataProps])
+    getDataProps(pageIndex)
+  }, [getDataProps, pageIndex])
   return (
     <div className="text-monospace">
       <Head title="Hello" />
       <div> {JSON.stringify(props.isRequesting)} </div>
-      <div> Hello World {counter} </div>
+      <div>Page {pageIndex} Length {props.users.length}</div>
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
           <tr>
@@ -31,7 +31,7 @@ const Dummy = (props) => {
         </thead>
         <tbody>
           {
-            props.users.map(user => (
+            !props.isRequesting && props.users.map(user => (
               <tr>
                 <td><img className="rounded-circle" src={user.avatar} alt="" /></td>
                 <td>{user.name}</td>
@@ -46,7 +46,19 @@ const Dummy = (props) => {
           }
         </tbody>
       </table>
-      <img src={`/tracker/${counter}.gif`} alt="tracker" />
+      <button
+        type="button"
+        onClick={() => setPageIndex(Math.max(0, +pageIndex - 1))}
+      >
+        Previous
+      </button>
+      <button
+        type="button"
+        onClick={() => setPageIndex(Math.min(9, +pageIndex + 1))}
+      >
+        Next
+      </button>
+      <img src={`/tracker/${pageIndex}.gif`} alt="tracker" />
     </div>
   )
 }
