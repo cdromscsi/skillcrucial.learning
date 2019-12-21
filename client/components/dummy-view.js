@@ -15,7 +15,7 @@ const Dummy = (props) => {
     <div className="text-monospace">
       <Head title="Hello" />
       <div> {JSON.stringify(props.isRequesting)} </div>
-      <div>Page {pageIndex} Length {props.users.length}</div>
+      <div>Page {pageIndex + 1} of {props.pages}. Users on page: {props.users.length}</div>
       <table className="table table-striped table-bordered">
         <thead className="thead-dark">
           <tr>
@@ -48,13 +48,17 @@ const Dummy = (props) => {
       </table>
       <button
         type="button"
-        onClick={() => setPageIndex(Math.max(0, +pageIndex - 1))}
+        /* onClick={() => setPageIndex(Math.max(0, +pageIndex - 1))} */
+        onClick={() => setPageIndex(+pageIndex - 1)}
+        disabled={+pageIndex === 0}
       >
         Previous
       </button>
       <button
         type="button"
-        onClick={() => setPageIndex(Math.min(9, +pageIndex + 1))}
+        /* onClick={() => setPageIndex(Math.min(9, +pageIndex + 1))} */
+        onClick={() => setPageIndex(+pageIndex + 1)}
+        disabled={(+pageIndex + 1) === props.pages}
       >
         Next
       </button>
@@ -67,7 +71,8 @@ Dummy.propTypes = {}
 
 const mapStateToProps = state => ({
   users: state.users.list,
-  isRequesting: state.users.isRequesting
+  isRequesting: state.users.isRequesting,
+  pages: state.users.pages
 })
 
 const mapDispatchToProps = dispatch => bindActionCreators({

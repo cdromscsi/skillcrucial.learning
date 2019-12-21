@@ -5,7 +5,8 @@ const REQUEST_DONE = 'skillcrucial//users/REQUEST_DONE'
 
 const InitialState = {
   list: [],
-  isRequesting: false
+  isRequesting: false,
+  pages: 0
 }
 
 export default (state = InitialState, action) => {
@@ -13,7 +14,8 @@ export default (state = InitialState, action) => {
     case GET_DATA:
       return {
         ...state,
-        list: action.list
+        list: action.list,
+        pages: action.pages
       }
     case REQUEST_STARTED:
       return {
@@ -38,7 +40,8 @@ export function getData(pageIndex = 0) {
       .then((json) => {
         dispatch({
           type: GET_DATA,
-          list: json
+          list: json.arrSlice,
+          pages: json.totalPages
         })
         dispatch({ type: REQUEST_DONE })
       })

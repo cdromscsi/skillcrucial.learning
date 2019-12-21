@@ -12,7 +12,7 @@ import cookieParser from 'cookie-parser'
 import Html from '../client/html';
 import Variables from '../client/variables';
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 9
 
 let connections = [];
 const clientVariables = Object.keys(process.env)
@@ -111,22 +111,26 @@ server.get('/api/users/:pageIndex', (req, res) => {
     fileName,
     (err, data) => {
       if (!err) {
-        return res.json(
-          JSON.parse(data).slice(
+        return res.json({
+          arrSlice: JSON.parse(data).slice(
             +pageIndex * PAGE_SIZE,
             (+pageIndex + 1) * PAGE_SIZE
-          )
-        )
+          ),
+          totalPages: Math.ceil(JSON.parse(data).length / PAGE_SIZE)
+        })
       }
       const dataGenerated = [...new Array(100).keys()].map(getFakeUser)
       return fs.writeFile(
         fileName,
         JSON.stringify(dataGenerated),
         () => {
-          res.json(dataGenerated.slice(
-            +pageIndex * PAGE_SIZE,
-            (+pageIndex + 1) * PAGE_SIZE
-          ))
+          res.json({
+            arrSlice: dataGenerated.slice(
+              +pageIndex * PAGE_SIZE,
+              (+pageIndex + 1) * PAGE_SIZE
+            ),
+            totalPages: Math.ceil(dataGenerated.length / PAGE_SIZE)
+          })
         }
       )
     }
